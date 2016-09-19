@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+    <head>
+        <title>TJM - API Project - hw2/3</title>
+        <!-- multiple ideas:
+        1. Single form, multiple parameters to fill out. Will search for first one based on order ISBN, Author, Title
+        2. Multiple forms. Use drop-box to auto-update which form is in use without leaving page, and then submit form based on that data.
+
+        Current rendition: Single Form
+        -->
+    </head>
+    <body>
+    
+        <h1>Browse Book Reviews!</h1>
+        <div id="form-title">Use any of the search parameters below</div>
+    <form action="http://api.nytimes.com/svc/books/v3/reviews.json" method="get">
+        
+        <input type="hidden" name="appid" value="75ea6d4ed9094056bff410aed06d511e">
+        <input type="hidden" name="mode" value="html">
+        
+        <!-- Search forms -->
+        <input type="text" name="isbn" id="isbn"/>
+        <label> ISBN Search (10-13 digits)</label>
+        <!-- <input type="submit" value="Search by ISBN (10-13 digits)"> -->
+        <br>
+        <input type="text" name="author" id="author"/><label> Author Search</label>
+        <!-- <input type="submit" value="Search by Author"> -->
+        <br>
+        <input type="text" name="title" id="title"/>
+        <label> Title Search (full title)</label>
+        <!--<input type="submit" value="Search by Full book Title"> -->
+        <br>
+        <input type="submit" />
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+        
+    <script>
+        $('form').on('submit', handleSubmit);   
+        
+        function handleSubmit(event){
+            console.log(event);
+            //don't leave the page
+            event.preventDefault();
+            
+            //Array of elements submitted into search
+            var searchEle = {
+                isbn:$('#isbn').val(),
+                author:$('#author').val(),
+                title:$('title').val()
+            };
+            var i=0;
+            
+            var formData ={
+                //use 'if' statement in while loop to determine which search parameter was used, and then submit that data with a return
+                while(searchEle[i]=''){
+                    if(searchEle[i] != ''){
+                        
+                    }
+                }
+                'api-key':$('#appid').val()
+            };
+            
+            $.ajax({
+                url:'http://api.nytimes.com/svc/books/v3/reviews.json',
+                method:'get',
+                data: formData
+            }).done(gotData).fail(handleError)
+        }
+        
+        function gotData(data){
+            console.log(data);
+        }
+        
+        function handleERror(err){
+            console.log('error', err)
+        }
+    </script>
+    
+    </body>
+</html>
