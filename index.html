@@ -8,6 +8,7 @@
 
         Current rendition: Single Form
         -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
     
@@ -58,7 +59,7 @@
                         return searchEle[i];
                         console.log(searchEle[i]);
                     }
-                    i++
+                    i++;
                 }
                 'api-key':$('#appid').val()
             };
@@ -67,16 +68,37 @@
                 url:'http://api.nytimes.com/svc/books/v3/reviews.json',
                 method:'get',
                 data: formData
-            }).done(gotData).fail(handleError)
+            }).done(function(data){
+                var author;
+                var title;
+                var isbn = [''];
+                var summary;
+                
+                author = data.results.book_author;
+                console.log(author);
+                
+                title = data.results.book_author;
+                console.log(title);
+                
+                isbn[0] = data.results.isbn13;
+                console.log(isbn[0]);
+                
+                searchResult(isbn, title, author, summary)
+            })
+                
+            .fail(handleError)
         }
         
-        function gotData(data){
-            console.log(data);
+        function searchResult(isbn, title, author, summary){
+            var str = "Your search results:<br>ISBN13: " + isbn[0] + "</span><br>Book Title: " + title + "<br>Author: " + author + "<br><br>Summary:<br>" + summary; 
+            
+            callback(str);
         }
         
-        function handleERror(err){
+        function handleError(err){
             console.log('error', err)
         }
+        
     </script>
     
     </body>
